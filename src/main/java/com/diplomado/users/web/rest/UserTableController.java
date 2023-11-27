@@ -1,5 +1,6 @@
 package com.diplomado.users.web.rest;
 
+import com.diplomado.users.dto.RolDTO;
 import com.diplomado.users.dto.UserTableDTO;
 import com.diplomado.users.services.UserRolService;
 import com.diplomado.users.services.UserTableService;
@@ -31,6 +32,13 @@ public class UserTableController {
         } else {
             return ResponseEntity.ok().body(userTableService.listUsers());
         }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserTableDTO> getRolById(@PathVariable final Long id) throws URISyntaxException {
+        return ResponseEntity.ok()
+                .body(userTableService.getUserById(id)
+                        .orElseThrow(()->new IllegalArgumentException("Resource not found exception for: "+ id)));
     }
 
     @PostMapping

@@ -48,6 +48,12 @@ public class UserTableServiceImpl implements UserTableService {
     }
 
     @Override
+    public Optional<UserTableDTO> getUserById(Long id) {
+        return userTableRepository.findById(id)
+                .map(userTableMapper::toDtoDetailed);
+    }
+
+    @Override
     public UserTableDTO save(UserTableDTO dto) {
         UserTable userTable = userTableRepository.save(userTableMapper.toEntity(dto));
         if (dto.getUserDetail() != null ) {
@@ -70,6 +76,23 @@ public class UserTableServiceImpl implements UserTableService {
                     }
                     if (dto.getEmail() != null) {
                         userTable.setEmail(dto.getEmail());
+                    }
+                    if (dto.getUserDetail() != null) {
+                        UserDetail userDetail = userDetailRepository.findUserDetailByUserId(dto.getId());
+                        if (dto.getUserDetail().getFirstName()!=null) {
+                            userDetail.setFirstName(dto.getUserDetail().getFirstName());
+                        }
+                        if (dto.getUserDetail().getLastName()!=null) {
+                            userDetail.setLastName(dto.getUserDetail().getLastName());
+                        }
+                        if (dto.getUserDetail().getAge()!=null) {
+                            userDetail.setAge(dto.getUserDetail().getAge());
+                        }
+                        if (dto.getUserDetail().getBirthDay()!=null) {
+                            userDetail.setBirthDay(dto.getUserDetail().getBirthDay());
+                        }
+                        //userDetail.setUser(userTable);
+                        userTable.setUserDetail(userDetail);
                     }
                     return userTableMapper.toDto(userTableRepository.save(userTable));
                 });

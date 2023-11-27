@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface UserTableService {
     List<UserTableDTO> listUsers();
     List<UserTableDTO> listUsersDetailed();
+    Optional<UserTableDTO> getUserById(Long id);
     UserTableDTO save(UserTableDTO dto);
     Optional<UserTableDTO> edit(UserTableDTO dto);
     void delete(Long userTableId);
